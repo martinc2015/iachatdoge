@@ -192,8 +192,16 @@ document.addEventListener('DOMContentLoaded', () => {
     row.className = `message-row ${msg.sender === 'user' ? 'user-row' : 'bot-row'}`;
 
     const avatar = document.createElement('div');
-    avatar.className = `avatar ${msg.sender === 'user' ? 'user-avatar-small' : 'bot-avatar-small'}`;
-    avatar.textContent = msg.sender === 'user' ? '👤' : '🤖';
+    if (msg.sender === 'user') {
+      avatar.className = 'avatar user-avatar-small';
+      avatar.textContent = '👤';
+    } else {
+      avatar.className = 'avatar bot-avatar-small';
+      const img = document.createElement('img');
+      img.src = 'avatar.png';
+      img.alt = 'Son Bot';
+      avatar.appendChild(img);
+    }
 
     const contentWrapper = document.createElement('div');
     contentWrapper.className = 'message-content-wrapper';
