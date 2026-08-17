@@ -333,6 +333,64 @@ body {
   opacity: 1;
 }
 
+/* Minimalist Non-Intrusive Promo Card */
+.promo-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.85rem;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: var(--transition);
+  margin-top: auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.promo-card:hover {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: var(--amber-glow);
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.25), inset 0 0 8px rgba(245, 158, 11, 0.08);
+  transform: translateY(-1px);
+}
+
+.promo-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.promo-title {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.01em;
+  transition: var(--transition);
+}
+
+.promo-card:hover .promo-title {
+  color: var(--amber-glow);
+}
+
+.promo-desc {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+.promo-arrow {
+  color: var(--text-muted);
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+
+.promo-card:hover .promo-arrow {
+  color: var(--amber-glow);
+  transform: translate(2px, -2px);
+}
+
 .sidebar-footer {
   padding-top: 1rem;
   border-top: 1px solid var(--border-subtle);
