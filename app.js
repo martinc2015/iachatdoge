@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // State
   let messages = [];
   let isBotTyping = false;
+  let isBotSpeaking = false;
 
   // Initialize App
   initTheme();
@@ -130,6 +131,13 @@ document.addEventListener('DOMContentLoaded', () => {
         setRandomDogeMood();
       });
     }
+
+    // Block focus during bot response on mobile
+    messageInput.addEventListener('focus', (e) => {
+      if (isBotSpeaking && window.matchMedia('(pointer: coarse)').matches) {
+        e.target.blur();
+      }
+    });
   }
 
   /**
@@ -174,6 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const botResponseText = generateBotReply(text);
       hideTypingIndicator();
       updateBotStatus('typing');
+      isBotSpeaking = true;
 
       const botMsg = {
         id: Date.now(),
@@ -186,12 +195,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Render with progressive Typewriter effect
       addMessageToDOM(botMsg, true, () => {
+        isBotSpeaking = false;
         isBotTyping = false;
         sendBtn.disabled = false;
         messageInput.disabled = false;
-        messageInput.focus();
+        
+        // Refocus only on desktop to prevent mobile keyboard from opening
+        if (!window.matchMedia('(pointer: coarse)').matches) {
+          messageInput.focus();
+        }
+        
         updateBotStatus('idle');
         setRandomDogeMood();
+
+        // Security delay to ensure mobile keyboard is closed
+        setTimeout(() => {
+          if (window.matchMedia('(pointer: coarse)').matches) {
+            messageInput.blur();
+          }
+        }, 100);
       });
     }, thinkingTime);
   }
