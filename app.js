@@ -1,5 +1,5 @@
 /**
- * DogeBot IA - Chat Application Logic
+ * Son Bot - Chat Application Logic
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (clean.includes('que puedes hacer') || clean.includes('qué puedes hacer') || clean.includes('ayuda')) {
-      return `Soy **DogeBot**, tu asistente inteligente. Puedo ayudarte con:\n\n- 💡 **Responder preguntas** generales y técnicas.\n- 💻 **Escribir y explicar código** en JS, Python, HTML, etc.\n- 🎭 **Contar chistes** y curiosidades.\n- ✨ **Redactar textos**, correos y resúmenes.\n\n*¡Pruébame haciéndome una pregunta!*`;
+      return `Soy **Son Bot**, tu asistente inteligente. Puedo ayudarte con:\n\n- 💡 **Responder preguntas** generales y técnicas.\n- 💻 **Escribir y explicar código** en JS, Python, HTML, etc.\n- 🎭 **Contar chistes** y curiosidades.\n- ✨ **Redactar textos**, correos y resúmenes.\n\n*¡Pruébame haciéndome una pregunta!*`;
     }
 
     if (clean.includes('chiste') || clean.includes('broma') || clean.includes('gracioso')) {
@@ -172,8 +172,8 @@ document.addEventListener('DOMContentLoaded', () => {
       return `La **Inteligencia Artificial (IA)** es la simulación de procesos de inteligencia humana por parte de máquinas y sistemas computacionales.\n\nIncluye áreas como:\n1. **Machine Learning**: Aprender patrones a partir de datos.\n2. **NLP (Procesamiento del Lenguaje Natural)**: Comprender y generar lenguaje humano como lo hacemos ahora.\n3. **Visión por Computadora**: Reconocer imágenes y videos.`;
     }
 
-    if (clean.includes('quien eres') || clean.includes('quién eres') || clean.includes('doge')) {
-      return `¡Soy **DogeBot**! 🐕 Un bot amigable creado para responder tus dudas con estilo, rapidez y buena energía. *Much AI, such intelligence!*`;
+    if (clean.includes('quien eres') || clean.includes('quién eres') || clean.includes('son bot') || clean.includes('bot')) {
+      return `¡Soy **Son Bot**! 🤖 Un asistente amigable creado para responder tus dudas con rapidez, inteligencia y buena energía.`;
     }
 
     if (clean.includes('gracias') || clean.includes('genial') || clean.includes('excelente')) {
@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const avatar = document.createElement('div');
     avatar.className = `avatar ${msg.sender === 'user' ? 'user-avatar-small' : 'bot-avatar-small'}`;
-    avatar.textContent = msg.sender === 'user' ? '👤' : '🐶';
+    avatar.textContent = msg.sender === 'user' ? '👤' : '🤖';
 
     const contentWrapper = document.createElement('div');
     contentWrapper.className = 'message-content-wrapper';
@@ -329,7 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const welcomeMsg = {
       id: Date.now(),
       sender: 'bot',
-      text: `¡Hola! Soy **DogeBot IA** 🐶✨ Tu asistente virtual.\n\nPuedes preguntarme lo que quieras, elegir una sugerencia de la izquierda o escribir un mensaje abajo. ¡Much wow!`,
+      text: `¡Hola! Soy **Son Bot** 🤖✨ Tu asistente virtual.\n\nPuedes preguntarme lo que quieras, elegir una sugerencia de la izquierda o escribir un mensaje abajo. ¿En qué te puedo ayudar hoy?`,
       time: getCurrentTime()
     };
     addMessageToDOM(welcomeMsg);
