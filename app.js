@@ -602,23 +602,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const statusTextEl = document.getElementById('header-status-text');
     const containerEl = document.getElementById('header-status-container');
     const sidebarRadar = document.querySelector('.sidebar .status-indicator');
-
-    if (!statusTextEl) return;
+    const botAvatars = document.querySelectorAll('.bot-avatar-large, .header-bot-info .bot-avatar-small');
 
     if (state === 'thinking') {
-      statusTextEl.textContent = customText || '🟡 Pensando...';
+      if (statusTextEl) statusTextEl.textContent = customText || '🟡 Pensando...';
       if (containerEl) containerEl.className = 'header-status thinking';
       if (sidebarRadar) sidebarRadar.className = 'status-indicator online thinking';
+      botAvatars.forEach(av => {
+        av.classList.remove('avatar-speaking');
+        av.classList.add('avatar-thinking');
+      });
     } else if (state === 'typing') {
-      statusTextEl.textContent = customText || '🟡 Escribiendo respuesta...';
+      if (statusTextEl) statusTextEl.textContent = customText || '🟡 Escribiendo respuesta...';
       if (containerEl) containerEl.className = 'header-status typing';
       if (sidebarRadar) sidebarRadar.className = 'status-indicator online typing';
+      botAvatars.forEach(av => {
+        av.classList.remove('avatar-thinking');
+        av.classList.add('avatar-speaking');
+      });
     } else {
       // Idle
       lastBotActivityTime = getCurrentTime();
-      statusTextEl.textContent = customText || `🟢 En línea • Última actividad: ${lastBotActivityTime}`;
+      if (statusTextEl) statusTextEl.textContent = customText || `🟢 En línea • Última actividad: ${lastBotActivityTime}`;
       if (containerEl) containerEl.className = 'header-status idle';
       if (sidebarRadar) sidebarRadar.className = 'status-indicator online';
+      botAvatars.forEach(av => {
+        av.classList.remove('avatar-thinking', 'avatar-speaking');
+      });
     }
   }
 
