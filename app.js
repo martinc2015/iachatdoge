@@ -119,7 +119,6 @@ document.addEventListener('DOMContentLoaded', () => {
     messageInput.value = '';
     messageInput.style.height = 'auto';
     charCounter.textContent = '0 / 1000';
-    messageInput.focus();
 
     // Append User Message
     const userMsg = {
@@ -128,15 +127,17 @@ document.addEventListener('DOMContentLoaded', () => {
       text: text,
       time: getCurrentTime()
     };
-    addMessageToDOM(userMsg);
+    addMessageToDOM(userMsg, false);
     messages.push(userMsg);
     saveMessages();
 
     // Trigger Bot Thinking & Reply
     showTypingIndicator();
     isBotTyping = true;
+    sendBtn.disabled = true;
+    messageInput.disabled = true;
 
-    const thinkingTime = Math.min(Math.max(text.length * 20, 800), 2000);
+    const thinkingTime = Math.min(Math.max(text.length * 20, 600), 1600);
 
     setTimeout(() => {
       const botResponseText = generateBotReply(text);
@@ -148,10 +149,16 @@ document.addEventListener('DOMContentLoaded', () => {
         text: botResponseText,
         time: getCurrentTime()
       };
-      addMessageToDOM(botMsg);
       messages.push(botMsg);
       saveMessages();
-      isBotTyping = false;
+
+      // Render with progressive Typewriter effect
+      addMessageToDOM(botMsg, true, () => {
+        isBotTyping = false;
+        sendBtn.disabled = false;
+        messageInput.disabled = false;
+        messageInput.focus();
+      });
     }, thinkingTime);
   }
 
@@ -348,7 +355,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /**
    * DOM Insertion
    */
-  function addMessageToDOM(msg) {
+  function addMessageToDOM(msg, isTypewriter = false, onComplete = null) {
     const row = document.createElement('div');
     row.className = `message-row ${msg.sender === 'user' ? 'user-row' : 'bot-row'}`;
 
@@ -377,7 +384,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const bubble = document.createElement('div');
     bubble.className = 'message-bubble';
-    bubble.innerHTML = formatMarkdown(msg.text);
 
     const time = document.createElement('span');
     time.className = 'message-time';
@@ -390,7 +396,35 @@ document.addEventListener('DOMContentLoaded', () => {
     row.appendChild(contentWrapper);
 
     chatMessages.appendChild(row);
-    scrollToBottom();
+
+    if (isTypewriter && msg.sender === 'bot') {
+      const fullText = msg.text;
+      let currentIndex = 0;
+      const speed = 18; // ms por tick
+      const step = 2;   // caracteres por tick para fluidez
+
+      const timer = setInterval(() => {
+        currentIndex = Math.min(currentIndex + step, fullText.length);
+        const currentSlice = fullText.substring(0, currentIndex);
+        bubble.textContent = currentSlice;
+        scrollToBottom();
+
+        if (currentIndex >= fullText.length) {
+          clearInterval(timer);
+          bubble.innerHTML = formatMarkdown(fullText);
+          scrollToBottom();
+          if (typeof onComplete === 'function') {
+            onComplete();
+          }
+        }
+      }, speed);
+    } else {
+      bubble.innerHTML = formatMarkdown(msg.text);
+      scrollToBottom();
+      if (typeof onComplete === 'function') {
+        onComplete();
+      }
+    }
   }
 
   /**
