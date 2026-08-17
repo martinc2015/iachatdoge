@@ -161,6 +161,10 @@ document.addEventListener('DOMContentLoaded', () => {
   function generateBotReply(prompt) {
     const clean = prompt.toLowerCase().trim();
 
+    if (prompt.includes('💩') || clean.includes('caca') || clean.includes('popo') || clean.includes('mierda')) {
+      return `me hago caca 💩`;
+    }
+
     if (clean.includes('hola') || clean.includes('buenas') || clean.includes('hey')) {
       return `¡Hola! Much wow 👋 ¿En qué puedo ayudarte hoy? Puedes hacerme preguntas, pedirme ideas o código.`;
     }
