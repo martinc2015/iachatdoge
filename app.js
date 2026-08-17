@@ -180,8 +180,8 @@ document.addEventListener('DOMContentLoaded', () => {
       return `¡De nada! Ha sido un placer ayudarte. Si necesitas algo más, aquí estaré. 🐶✨`;
     }
 
-    // Default intelligent conversational reply
-    return `He procesado tu mensaje: *"**${escapeHtml(prompt)}**"*\n\nEs un tema muy interesante. Como asistente inteligente, puedo profundizar más en esto si me das más detalles o me haces una pregunta específica sobre el tema. ¿Te gustaría que elabore más?`;
+    // Default reply
+    return `me hago caca 💩`;
   }
 
   /**
