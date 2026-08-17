@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Son Bot - Chat Interactivo</title>
   <meta name="description" content="Chat simple y moderno con bot de inteligencia artificial">
-  <link rel="stylesheet" href="style.css?v=4">
+  <link rel="stylesheet" href="style.css?v=5">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -83,6 +83,16 @@
       <!-- Formulario de entrada -->
       <footer class="chat-input-area">
         <form id="chat-form" class="chat-form">
+          <!-- Barra rápida de emojis -->
+          <div class="emoji-bar" id="emoji-bar">
+            <button type="button" class="emoji-btn" data-emoji="😀" title="Sonrisa">😀</button>
+            <button type="button" class="emoji-btn" data-emoji="😂" title="Risa">😂</button>
+            <button type="button" class="emoji-btn" data-emoji="😍" title="Amor">😍</button>
+            <button type="button" class="emoji-btn" data-emoji="😢" title="Triste">😢</button>
+            <button type="button" class="emoji-btn" data-emoji="😡" title="Enojo">😡</button>
+            <button type="button" class="emoji-btn" data-emoji="💩" title="Caca">💩</button>
+          </div>
+
           <div class="input-container">
             <textarea 
               id="message-input" 
@@ -107,6 +117,6 @@
     </main>
   </div>
 
-  <script src="app.js?v=4"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>

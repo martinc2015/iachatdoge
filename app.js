@@ -77,6 +77,33 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    // Emoji quick buttons
+    const emojiButtons = document.querySelectorAll('.emoji-btn');
+    emojiButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const emoji = btn.getAttribute('data-emoji');
+        if (!emoji) return;
+
+        const start = messageInput.selectionStart;
+        const end = messageInput.selectionEnd;
+        const text = messageInput.value;
+
+        if (typeof start === 'number' && typeof end === 'number') {
+          messageInput.value = text.substring(0, start) + emoji + text.substring(end);
+          messageInput.selectionStart = messageInput.selectionEnd = start + emoji.length;
+        } else {
+          messageInput.value += emoji;
+        }
+
+        // Auto-resize height & update counter
+        messageInput.style.height = 'auto';
+        messageInput.style.height = Math.min(messageInput.scrollHeight, 140) + 'px';
+        charCounter.textContent = `${messageInput.value.length} / 1000`;
+
+        messageInput.focus();
+      });
+    });
+
     // Theme toggle
     themeToggleBtn.addEventListener('click', toggleTheme);
   }
