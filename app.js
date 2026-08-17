@@ -161,12 +161,17 @@ document.addEventListener('DOMContentLoaded', () => {
   function generateBotReply(prompt) {
     const clean = prompt.toLowerCase().trim();
 
-    // Regla fija para emoji y palabras de caca
+    // 1. Regla fija e inmutable para emoji y palabras de caca
     if (prompt.includes('💩') || clean.includes('caca') || clean.includes('popo') || clean.includes('mierda')) {
       return `me hago caca 💩`;
     }
 
-    // 1. Análisis NLP Liviano con Compromise.js (si está disponible)
+    // 2. Probabilidad aleatoria (~10%) de remate o respuesta espontánea
+    if (Math.random() < 0.10) {
+      return `me hago caca 💩`;
+    }
+
+    // 3. Análisis NLP Liviano con Compromise.js (si está disponible)
     let doc = null;
     let nlpPeople = [];
     let nlpPlaces = [];
