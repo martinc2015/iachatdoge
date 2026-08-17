@@ -166,6 +166,61 @@ document.addEventListener('DOMContentLoaded', () => {
       return `me hago caca 💩`;
     }
 
+    // 1. Análisis NLP Liviano con Compromise.js (si está disponible)
+    let doc = null;
+    let nlpPeople = [];
+    let nlpPlaces = [];
+    let isNegative = false;
+
+    if (typeof window !== 'undefined' && typeof window.nlp === 'function') {
+      try {
+        doc = window.nlp(prompt);
+        nlpPeople = doc.people().out('array');
+        nlpPlaces = doc.places().out('array');
+        isNegative = doc.has('#Negative');
+      } catch (e) {
+        console.warn('NLP parser error:', e);
+      }
+    }
+
+    // Respuestas contextuales por entidades detectadas con NLP
+    if (nlpPeople && nlpPeople.length > 0 && !clean.includes('son bot')) {
+      const person = nlpPeople[0];
+      return `He detectado que mencionás a **${escapeHtml(person)}**. ¿Qué relación tenés con esa persona? Mis sensores caninos están atentos 🐶🔍.`;
+    }
+
+    if (nlpPlaces && nlpPlaces.length > 0) {
+      const place = nlpPlaces[0];
+      return `¡**${escapeHtml(place)}**! Suena a un gran lugar para pasear, explorar y enterrar un hueso virtual 🌍🐾.`;
+    }
+
+    // Detección contextual de preguntas específicas (Por qué / Cuándo / Dónde / Cómo)
+    if (clean.startsWith('por que') || clean.startsWith('por qué') || clean.includes('¿por que') || clean.includes('¿por qué') || clean.startsWith('why')) {
+      const whyReplies = [
+        `El 'por qué' es uno de los grandes misterios del universo canino... pero según mis algoritmos, se debe a una mezcla de casualidad y buena onda 🪐✨`,
+        `Porque así lo decidieron los creadores del ciberespacio (y porque a veces las cosas simplemente pasan) 🐕💡`,
+        `Buena pregunta filosófica. Mi CPU sugiere que no te preocupes tanto por el 'por qué' y disfrutes del momento presente 🐾.`
+      ];
+      return whyReplies[Math.floor(Math.random() * whyReplies.length)];
+    }
+
+    if (clean.startsWith('cuando') || clean.startsWith('cuándo') || clean.includes('¿cuando') || clean.includes('¿cuándo') || clean.startsWith('when')) {
+      return `Según mis relojes cuánticos: el momento ideal es **ahora mismo** (o justo después de una buena siesta) ⏰✨.`;
+    }
+
+    if (clean.startsWith('donde') || clean.startsWith('dónde') || clean.includes('¿donde') || clean.includes('¿dónde') || clean.startsWith('where')) {
+      return `No tengo las coordenadas GPS exactas en este chip, pero si hay buena comida y amigos, seguro es el lugar correcto 📍🐶.`;
+    }
+
+    if (clean.startsWith('como') || clean.startsWith('cómo') || clean.includes('¿como') || clean.includes('¿cómo') || clean.startsWith('how')) {
+      return `Se logra con un 10% de inspiración, un 20% de paciencia y un 70% de código JavaScript bien optimizado 💻⚡.`;
+    }
+
+    // Tono modulado ante sentimientos negativos
+    if (isNegative && (clean.includes('triste') || clean.includes('mal') || clean.includes('aburrido') || clean.includes('cansado') || clean.includes('llorar') || clean.includes('odio') || clean.includes('depre'))) {
+      return `Percibo cierta vibra baja en tu mensaje 🥺. Tranqui, acá está Son Bot para acompañarte con una dosis de cariño digital y buen ánimo 🐾❤️.`;
+    }
+
     // Saludos
     if (clean.includes('hola') || clean.includes('buenas') || clean.includes('hey') || clean.includes('buenos dias') || clean.includes('buenas tardes') || clean.includes('buenas noches')) {
       const greetings = [
