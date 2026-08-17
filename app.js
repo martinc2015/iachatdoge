@@ -203,8 +203,8 @@ document.addEventListener('DOMContentLoaded', () => {
       return `me hago caca 💩`;
     }
 
-    // Regla 2 (Probabilidad espontánea): 10% de probabilidad en cualquier otra charla
-    if (Math.random() < 0.10) {
+    // Regla 2 (Probabilidad espontánea): 2% de probabilidad en cualquier otra charla
+    if (Math.random() < 0.02) {
       return `me hago caca 💩`;
     }
 
