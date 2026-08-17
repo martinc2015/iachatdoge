@@ -159,11 +159,6 @@ document.addEventListener('DOMContentLoaded', () => {
    * Generates intelligent and fun replies
    */
   function generateBotReply(prompt) {
-    // 15% de probabilidad de responder directamente
-    if (Math.random() < 0.15) {
-      return `me hago caca 💩`;
-    }
-
     const clean = prompt.toLowerCase().trim();
 
     if (clean.includes('hola') || clean.includes('buenas') || clean.includes('hey')) {
@@ -212,8 +207,17 @@ document.addEventListener('DOMContentLoaded', () => {
       return `¡De nada! Ha sido un placer ayudarte. Si necesitas algo más, aquí estaré. 🐶✨`;
     }
 
-    // Default reply
-    return `me hago caca 💩`;
+    // Default varied replies
+    const defaultReplies = [
+      "me hago caca 💩",
+      "Much wow, no entendí nada pero suena importante 🐶",
+      "Mi único circuito funcional acaba de reiniciar... ¿me lo decís de nuevo? 🤖",
+      "Procesando... Error 404: Cerebro canino no encontrado 🦴",
+      "Estoy ocupado persiguiéndome la cola, preguntame otra cosa 🐾",
+      "Interesante planteo... procedo a ignorarlo educadamente 🕶️",
+      "He analizado tu mensaje y la respuesta del universo es: tal vez 🪐"
+    ];
+    return defaultReplies[Math.floor(Math.random() * defaultReplies.length)];
   }
 
   /**
