@@ -255,6 +255,27 @@ document.addEventListener('DOMContentLoaded', () => {
       return `¡Guau! 🐕 Como representante de la comunidad canina digital, apruebo este mensaje. Los paseos y los premios son la clave de la felicidad.`;
     }
 
+    // Preguntas generales
+    if (prompt.includes('?') || prompt.includes('¿')) {
+      const questionReplies = [
+        `Buena pregunta... según mis cálculos cuánticos caninos, la probabilidad de éxito es del 99.9% 🐕📊`,
+        `Mmm, déjame oler esa consulta... 🤔 ¡Definitivamente tiene sentido! Aunque yo recomendaría avanzar con precaución.`,
+        `Como IA perruna, mi respuesta es: si te hace feliz (como a mí una pelota de tenis), dale para adelante 🎾✨`,
+        `Esa es una pregunta profunda. Dame un segundo que consulto a los satélites caninos... 🛰️🐾 ¡Todo apunta a que sí!`
+      ];
+      return questionReplies[Math.floor(Math.random() * questionReplies.length)];
+    }
+
+    // Exclamaciones / Afirmaciones con energía
+    if (prompt.includes('!') || prompt.includes('¡')) {
+      const exclamationReplies = [
+        `¡Esa energía me gusta! Much wow ⚡🐾`,
+        `¡Tranquilo humano, la emoción desborda mis circuitos! 🚀🐶`,
+        `¡Totalmente de acuerdo con esa intensidad! 🔥`
+      ];
+      return exclamationReplies[Math.floor(Math.random() * exclamationReplies.length)];
+    }
+
     // Default varied replies
     const defaultReplies = [
       "me hago caca 💩",
