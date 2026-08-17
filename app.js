@@ -482,6 +482,9 @@ document.addEventListener('DOMContentLoaded', () => {
   function formatMarkdown(text) {
     let html = escapeHtml(text);
 
+    // Replace Argentina flag emoji with inline SVG for Windows compatibility
+    html = html.replace(/🇦🇷/g, `<svg class="flag-icon" viewBox="0 0 768 480" width="20" height="13" style="border-radius:2px; display:inline-block; pointer-events:none; vertical-align:middle; box-shadow:0 0 3px rgba(0,0,0,0.6); margin: 0 4px;"><path fill="#74acdf" d="M0 0h768v480H0z"/><path fill="#fff" d="M0 160h768v160H0z"/><circle cx="384" cy="240" r="28" fill="#f6b40e"/><circle cx="384" cy="240" r="24" fill="#85340a" fill-opacity=".15"/></svg>`);
+
     // Code blocks ```code```
     html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
       return `<pre><code>${code.trim()}</code></pre>`;
