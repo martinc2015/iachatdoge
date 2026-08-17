@@ -236,6 +236,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Regla 3 (NLP con Stemmer en español)
     const hasStem = (...prefixes) => stems.some(s => prefixes.some(p => s.startsWith(p) || clean.includes(p)));
 
+    // Capacidades / ¿Qué puedes hacer? / Ayuda
+    if (clean.includes('que puedes hacer') || clean.includes('que podes hacer') || clean.includes('para que sirves') || clean.includes('para que servis') || clean.includes('capacidades') || clean.includes('funciones') || clean.includes('ayuda') || clean.includes('comandos')) {
+      return `¡Puedo hacer un montón de cosas! 🐶✨\n\n- 🎭 **Contar chistes** y anécdotas divertidas.\n- 💡 **Darte frases motivacionales** para el día.\n- 💻 **Escribir ejemplos de código** en JavaScript/HTML/CSS.\n- 🧠 **Explicar conceptos de IA** y tecnología.\n- 🥩 **Charlar de comida, asados y paseos** perrunos.\n- 🎨 **Cambiar de temas visuales** con el botón superior.\n\n¡Escribime lo que quieras o tocá cualquiera de los botones de la izquierda!`;
+    }
+
+    // Inteligencia Artificial / ¿Qué es la IA?
+    if (clean.includes('inteligencia artificial') || clean.includes('que es la ia') || clean.includes('que es ia') || clean.includes('explicame que es la ia') || clean.includes('redes neuronales') || hasStem('intelig')) {
+      return `La **Inteligencia Artificial (IA)** es una rama de la informática que permite a las computadoras aprender, razonar y resolver problemas como si fueran humanos (¡o perritos muy listos! 🐶💡).\n\nFunciona mediante algoritmos y modelos entrenados con millones de datos para reconocer patrones, predecir resultados, generar texto, imágenes y mucho más. En mi caso, ¡me ayuda a charlar con vos y no mordisquear los cables del servidor! 🚀✨`;
+    }
+
     // A. Comida / Hambre (stem: 'com', 'morfi', 'asad', 'hambri')
     if (hasStem('morf', 'asad', 'hambri', 'comid', 'croquet', 'pizz', 'hues', 'almuerz', 'cen', 'carn')) {
       const foodReplies = [
