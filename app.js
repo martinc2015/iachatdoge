@@ -132,8 +132,8 @@ document.addEventListener('DOMContentLoaded', () => {
    * Generates intelligent and fun replies
    */
   function generateBotReply(prompt) {
-    // 60% de probabilidad de responder directamente
-    if (Math.random() < 0.6) {
+    // 15% de probabilidad de responder directamente
+    if (Math.random() < 0.15) {
       return `me hago caca 💩`;
     }
 
