@@ -412,62 +412,100 @@ body {
   opacity: 1;
 }
 
-/* Minimalist Non-Intrusive Promo Card */
+/* Dogecoin Gold Bright Promo Card */
 .promo-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-subtle);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(234, 179, 8, 0.12), rgba(15, 23, 42, 0.8));
+  border: 1.5px solid #f59e0b;
   border-radius: var(--radius-sm);
-  padding: 0.65rem 0.85rem;
+  padding: 0.75rem 0.95rem;
   text-decoration: none;
   color: var(--text-primary);
-  transition: var(--transition);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   margin-top: auto;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.25), inset 0 0 12px rgba(245, 158, 11, 0.1);
+}
+
+.doge-watermark {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%) rotate(12deg);
+  font-size: 3.6rem;
+  font-weight: 900;
+  font-family: 'Outfit', sans-serif;
+  color: #fbbf24;
+  opacity: 0.22;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+  text-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
 }
 
 .promo-card:hover {
-  background: rgba(245, 158, 11, 0.1);
-  border-color: var(--amber-glow);
-  box-shadow: 0 0 15px rgba(245, 158, 11, 0.25), inset 0 0 8px rgba(245, 158, 11, 0.08);
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.35), rgba(234, 179, 8, 0.22), rgba(20, 28, 50, 0.9));
+  border-color: #fbbf24;
+  box-shadow: 0 0 25px rgba(245, 158, 11, 0.55), inset 0 0 16px rgba(251, 191, 36, 0.2);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.promo-card:hover .doge-watermark {
+  opacity: 0.35;
+  transform: translateY(-50%) rotate(18deg) scale(1.08);
+  transition: all 0.3s ease;
 }
 
 .promo-content {
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
+  gap: 0.2rem;
+  z-index: 1;
 }
 
 .promo-title {
-  font-size: 0.84rem;
-  font-weight: 600;
-  color: #ffffff;
-  letter-spacing: 0.01em;
-  transition: var(--transition);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #fbbf24;
+  letter-spacing: 0.02em;
+  text-shadow: 0 0 10px rgba(251, 191, 36, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
-.promo-card:hover .promo-title {
-  color: var(--amber-glow);
+.promo-badge {
+  font-size: 0.65rem;
+  font-family: var(--font-code);
+  font-weight: 700;
+  color: #1e1b4b;
+  background: #fbbf24;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.6);
 }
 
 .promo-desc {
-  font-size: 0.72rem;
-  color: var(--text-secondary);
+  font-size: 0.74rem;
+  color: #fef08a;
+  opacity: 0.9;
 }
 
 .promo-arrow {
-  color: var(--text-muted);
+  color: #fbbf24;
   transition: var(--transition);
   flex-shrink: 0;
+  z-index: 1;
+  filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.5));
 }
 
 .promo-card:hover .promo-arrow {
-  color: var(--amber-glow);
-  transform: translate(2px, -2px);
+  color: #ffffff;
+  transform: translate(3px, -3px);
+  filter: drop-shadow(0 0 8px #fbbf24);
 }
 
 .sidebar-footer {
