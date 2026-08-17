@@ -484,7 +484,27 @@ body {
 .header-status {
   font-size: 0.76rem;
   color: var(--cyan-glow);
-  opacity: 0.85;
+  opacity: 0.9;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.header-status.thinking,
+.header-status.typing {
+  color: #fbbf24;
+  text-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
+}
+
+.header-status.idle {
+  color: var(--cyan-glow);
+}
+
+.status-indicator.thinking,
+.status-indicator.typing {
+  background-color: #fbbf24 !important;
+  box-shadow: 0 0 10px #fbbf24 !important;
 }
 
 .icon-btn {

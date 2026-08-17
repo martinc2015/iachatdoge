@@ -136,12 +136,14 @@ document.addEventListener('DOMContentLoaded', () => {
     isBotTyping = true;
     sendBtn.disabled = true;
     messageInput.disabled = true;
+    updateBotStatus('thinking');
 
     const thinkingTime = Math.min(Math.max(text.length * 20, 600), 1600);
 
     setTimeout(() => {
       const botResponseText = generateBotReply(text);
       hideTypingIndicator();
+      updateBotStatus('typing');
 
       const botMsg = {
         id: Date.now(),
@@ -158,6 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sendBtn.disabled = false;
         messageInput.disabled = false;
         messageInput.focus();
+        updateBotStatus('idle');
       });
     }, thinkingTime);
   }
@@ -562,6 +565,35 @@ document.addEventListener('DOMContentLoaded', () => {
     addMessageToDOM(welcomeMsg);
     messages.push(welcomeMsg);
     saveMessages();
+  }
+
+  let lastBotActivityTime = 'ahora';
+
+  /**
+   * Updates dynamic header bot status and indicator
+   */
+  function updateBotStatus(state, customText) {
+    const statusTextEl = document.getElementById('header-status-text');
+    const containerEl = document.getElementById('header-status-container');
+    const sidebarRadar = document.querySelector('.sidebar .status-indicator');
+
+    if (!statusTextEl) return;
+
+    if (state === 'thinking') {
+      statusTextEl.textContent = customText || '🟡 Pensando...';
+      if (containerEl) containerEl.className = 'header-status thinking';
+      if (sidebarRadar) sidebarRadar.className = 'status-indicator online thinking';
+    } else if (state === 'typing') {
+      statusTextEl.textContent = customText || '🟡 Escribiendo respuesta...';
+      if (containerEl) containerEl.className = 'header-status typing';
+      if (sidebarRadar) sidebarRadar.className = 'status-indicator online typing';
+    } else {
+      // Idle
+      lastBotActivityTime = getCurrentTime();
+      statusTextEl.textContent = customText || `🟢 En línea • Última actividad: ${lastBotActivityTime}`;
+      if (containerEl) containerEl.className = 'header-status idle';
+      if (sidebarRadar) sidebarRadar.className = 'status-indicator online';
+    }
   }
 
   /**
