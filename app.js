@@ -39,6 +39,24 @@ document.addEventListener('DOMContentLoaded', () => {
   initDogeMood();
   loadChatHistory();
   setupEventListeners();
+  updateVersionFromGithub();
+
+  /**
+   * Auto-fetch latest GitHub commit SHA for version badge
+   */
+  async function updateVersionFromGithub() {
+    try {
+      const res = await fetch('https://api.github.com/repos/martinc2015/iachatdoge/commits/main');
+      if (res.ok) {
+        const data = await res.json();
+        const sha = data.sha.substring(0, 7);
+        const badge = document.querySelector('.version-badge');
+        if (badge) badge.textContent = `v-${sha}`;
+      }
+    } catch (e) {
+      console.warn('Error al obtener versión de GitHub:', e);
+    }
+  }
 
   /**
    * Setup Event Listeners
