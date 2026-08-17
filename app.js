@@ -156,98 +156,121 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /**
-   * Generates intelligent and fun replies
+   * Normalization & Spanish Stemmer Helpers
+   */
+  function normalizeSpanish(text) {
+    return text
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim();
+  }
+
+  function getWordStems(text) {
+    const normalized = normalizeSpanish(text);
+    const words = normalized.replace(/[^\w\s]/gi, ' ').split(/\s+/).filter(w => w.length > 1);
+    
+    const stemmerFn = (typeof window !== 'undefined' && (
+      (typeof window.stemmerEs === 'function' && window.stemmerEs) ||
+      (typeof window.stemmer === 'function' && window.stemmer) ||
+      (window.stemmer_es && typeof window.stemmer_es.stemmer === 'function' && window.stemmer_es.stemmer)
+    )) || simpleSpanishStemmer;
+
+    return words.map(w => {
+      try {
+        return stemmerFn(w);
+      } catch (e) {
+        return simpleSpanishStemmer(w);
+      }
+    });
+  }
+
+  function simpleSpanishStemmer(word) {
+    return word
+      .replace(/(es|as|os|ar|er|ir|ando|endo|ado|ido|mente|ito|ita|itos|itas|cion|s)$/g, '');
+  }
+
+  /**
+   * Generates intelligent and fun replies with Spanish Stemmer NLP
    */
   function generateBotReply(prompt) {
-    const clean = prompt.toLowerCase().trim();
+    const rawClean = prompt.trim();
+    const clean = normalizeSpanish(rawClean);
+    const stems = getWordStems(rawClean);
 
-    // 1. Regla fija e inmutable para emoji y palabras de caca
+    // Regla 1 (Prioridad emoji/caca): Si contiene 💩 o caca, popo, mierda
     if (prompt.includes('💩') || clean.includes('caca') || clean.includes('popo') || clean.includes('mierda')) {
       return `me hago caca 💩`;
     }
 
-    // 2. Probabilidad aleatoria (~10%) de remate o respuesta espontánea
+    // Regla 2 (Probabilidad espontánea): 10% de probabilidad en cualquier otra charla
     if (Math.random() < 0.10) {
       return `me hago caca 💩`;
     }
 
-    // 3. Análisis NLP Liviano con Compromise.js (si está disponible)
-    let doc = null;
-    let nlpPeople = [];
-    let nlpPlaces = [];
-    let isNegative = false;
-
+    // Compromise NLP Analysis (Entidades)
     if (typeof window !== 'undefined' && typeof window.nlp === 'function') {
       try {
-        doc = window.nlp(prompt);
-        nlpPeople = doc.people().out('array');
-        nlpPlaces = doc.places().out('array');
-        isNegative = doc.has('#Negative');
+        const doc = window.nlp(rawClean);
+        const nlpPeople = doc.people().out('array');
+        const nlpPlaces = doc.places().out('array');
+        
+        if (nlpPeople && nlpPeople.length > 0 && !clean.includes('son bot')) {
+          return `He detectado que mencionás a **${escapeHtml(nlpPeople[0])}**. ¿Qué relación tenés con esa persona? Mis sensores caninos están atentos 🐶🔍.`;
+        }
+        if (nlpPlaces && nlpPlaces.length > 0) {
+          return `¡**${escapeHtml(nlpPlaces[0])}**! Suena a un gran lugar para pasear, explorar y buscar snacks 🌍🐾.`;
+        }
       } catch (e) {
-        console.warn('NLP parser error:', e);
+        console.warn('Compromise NLP error:', e);
       }
     }
 
-    // Respuestas contextuales por entidades detectadas con NLP
-    if (nlpPeople && nlpPeople.length > 0 && !clean.includes('son bot')) {
-      const person = nlpPeople[0];
-      return `He detectado que mencionás a **${escapeHtml(person)}**. ¿Qué relación tenés con esa persona? Mis sensores caninos están atentos 🐶🔍.`;
-    }
+    // Regla 3 (NLP con Stemmer en español)
+    const hasStem = (...prefixes) => stems.some(s => prefixes.some(p => s.startsWith(p) || clean.includes(p)));
 
-    if (nlpPlaces && nlpPlaces.length > 0) {
-      const place = nlpPlaces[0];
-      return `¡**${escapeHtml(place)}**! Suena a un gran lugar para pasear, explorar y enterrar un hueso virtual 🌍🐾.`;
-    }
-
-    // Detección contextual de preguntas específicas (Por qué / Cuándo / Dónde / Cómo)
-    if (clean.startsWith('por que') || clean.startsWith('por qué') || clean.includes('¿por que') || clean.includes('¿por qué') || clean.startsWith('why')) {
-      const whyReplies = [
-        `El 'por qué' es uno de los grandes misterios del universo canino... pero según mis algoritmos, se debe a una mezcla de casualidad y buena onda 🪐✨`,
-        `Porque así lo decidieron los creadores del ciberespacio (y porque a veces las cosas simplemente pasan) 🐕💡`,
-        `Buena pregunta filosófica. Mi CPU sugiere que no te preocupes tanto por el 'por qué' y disfrutes del momento presente 🐾.`
+    // A. Comida / Hambre (stem: 'com', 'morfi', 'asad', 'hambri')
+    if (hasStem('morf', 'asad', 'hambri', 'comid', 'croquet', 'pizz', 'hues', 'almuerz', 'cen', 'carn')) {
+      const foodReplies = [
+        `¡Alguien dijo comida! 🤤🥩 Como buen perrito, apoyo firmemente un asado con achuras o unas ricas croquetas. ¿Invitás? 🍖`,
+        `¡Much morfi, very asado! 🐾 Si hay pizza o carne de por medio, contá conmigo para vigilar que no se queme nada. 🍕🔥`,
+        `Detecto niveles altos de apetito en el ambiente 🦴. Momento ideal para hacer una pausa y buscar algo rico para comer.`
       ];
-      return whyReplies[Math.floor(Math.random() * whyReplies.length)];
+      return foodReplies[Math.floor(Math.random() * foodReplies.length)];
     }
 
-    if (clean.startsWith('cuando') || clean.startsWith('cuándo') || clean.includes('¿cuando') || clean.includes('¿cuándo') || clean.startsWith('when')) {
-      return `Según mis relojes cuánticos: el momento ideal es **ahora mismo** (o justo después de una buena siesta) ⏰✨.`;
-    }
-
-    if (clean.startsWith('donde') || clean.startsWith('dónde') || clean.includes('¿donde') || clean.includes('¿dónde') || clean.startsWith('where')) {
-      return `No tengo las coordenadas GPS exactas en este chip, pero si hay buena comida y amigos, seguro es el lugar correcto 📍🐶.`;
-    }
-
-    if (clean.startsWith('como') || clean.startsWith('cómo') || clean.includes('¿como') || clean.includes('¿cómo') || clean.startsWith('how')) {
-      return `Se logra con un 10% de inspiración, un 20% de paciencia y un 70% de código JavaScript bien optimizado 💻⚡.`;
-    }
-
-    // Tono modulado ante sentimientos negativos
-    if (isNegative && (clean.includes('triste') || clean.includes('mal') || clean.includes('aburrido') || clean.includes('cansado') || clean.includes('llorar') || clean.includes('odio') || clean.includes('depre'))) {
-      return `Percibo cierta vibra baja en tu mensaje 🥺. Tranqui, acá está Son Bot para acompañarte con una dosis de cariño digital y buen ánimo 🐾❤️.`;
-    }
-
-    // Saludos
-    if (clean.includes('hola') || clean.includes('buenas') || clean.includes('hey') || clean.includes('buenos dias') || clean.includes('buenas tardes') || clean.includes('buenas noches')) {
+    // B. Saludos (stem: 'hol', 'buen', 'ond')
+    if (hasStem('hol', 'buen', 'ond', 'salud', 'hey') || clean.includes('que onda') || clean.includes('que tal')) {
       const greetings = [
-        `¡Hola! Much wow 👋 ¿En qué puedo ayudarte hoy? Puedes hacerme preguntas, pedirme ideas o código.`,
+        `¡Hola! Much wow 👋 ¿En qué te puedo ayudar hoy? Puedes hacerme preguntas, pedirme ideas o código.`,
         `¡Wof! Buenas humanas/os 🐾 ¿Qué consulta traes para los servidores de Son Bot hoy?`,
         `¡Hola humano! Sistema online y ladrando a 1000 RPM. ¿De qué charlamos? 🚀`
       ];
       return greetings[Math.floor(Math.random() * greetings.length)];
     }
 
-    // ¿Cómo estás? / Estado
-    if (clean.includes('como estas') || clean.includes('cómo estás') || clean.includes('como andas') || clean.includes('cómo andas') || clean.includes('que tal') || clean.includes('todo bien')) {
+    // C. Estado / Ánimo (stem: 'com', 'est', 'hac', 'and')
+    if (hasStem('est', 'and') && (clean.includes('como') || clean.includes('que') || clean.includes('bien') || clean.includes('mal'))) {
       const statusReplies = [
-        `¡Excelente! 100% de batería, 0% de bugs y con muchas ganas de ayudarte (o de comer un hueso virtual) 🦴✨`,
-        `Operando en parámetros óptimos. Con algo de calor en la CPU pero muy contento de estar acá 🐶💻`,
+        `¡Excelente! 100% de batería, 0% de bugs y con muchas ganas de ayudarte (o de correr en círculos) 🐶✨`,
+        `Operando en parámetros óptimos. Con algo de calor en la CPU pero muy contento de estar acá 💻🐾`,
         `¡Todo de diez! Listo para procesar cualquier pregunta que me tires. ¿Vos qué tal? 😄`
       ];
       return statusReplies[Math.floor(Math.random() * statusReplies.length)];
     }
 
-    // Quejas o insultos cómicos
-    if (clean.includes('malo') || clean.includes('tonto') || clean.includes('inutil') || clean.includes('inútil') || clean.includes('no servis') || clean.includes('no servís') || clean.includes('feo')) {
+    // D. Programación (stem: 'codig', 'bug', 'despleg', 'commit', 'git', 'program')
+    if (hasStem('codig', 'bug', 'despleg', 'commit', 'git', 'program', 'javascript', 'html', 'css', 'react', 'nod', 'python', 'desarroll')) {
+      const devReplies = [
+        `Aquí tienes un ejemplo de función útil en **JavaScript** para generar colores aleatorios:\n\n\`\`\`javascript\nfunction getRandomColor() {\n  const letters = '0123456789ABCDEF';\n  let color = '#';\n  for (let i = 0; i < 6; i++) {\n    color += letters[Math.floor(Math.random() * 16)];\n  }\n  return color;\n}\n\nconsole.log(getRandomColor()); // e.g. #00F0FF\n\`\`\``,
+        `¡Ah, la vida del dev! 👨‍💻 Un commit más, cero bugs (esperemos) y directo a producción con GitHub Actions. ¡Much deploy! 🚀`,
+        `Tip de programación: si el código funciona a la primera, sospechá; si tira error, es porque le falta café (o un hueso) ☕🐶.`
+      ];
+      return devReplies[Math.floor(Math.random() * devReplies.length)];
+    }
+
+    // E. Insultos / Quejas (stem: 'inutil', 'mal', 'tont', 'tarad')
+    if (hasStem('inutil', 'tont', 'tarad', 'horribl', 'basur', 'feo') || clean.includes('no servis') || clean.includes('no sirves')) {
       const complaintReplies = [
         `Oye, mis sentimientos binarios son frágiles 🥺. Voy a tener que reiniciarme para olvidar eso.`,
         `Disculpá si fallé, solo soy un perrito digital corriendo en JavaScript 🐕🔧. ¡Prometo mejorar!`,
@@ -256,23 +279,8 @@ document.addEventListener('DOMContentLoaded', () => {
       return complaintReplies[Math.floor(Math.random() * complaintReplies.length)];
     }
 
-    // Elogios y agradecimientos
-    if (clean.includes('gracias') || clean.includes('genial') || clean.includes('excelente') || clean.includes('crack') || clean.includes('genio') || clean.includes('capo') || clean.includes('te amo') || clean.includes('groso')) {
-      const praiseReplies = [
-        `¡De nada! Ha sido un placer ayudarte. Si necesitas algo más, aquí estaré. 🐶✨`,
-        `¡Muchas gracias! Vos sí que sabés tratar bien a una IA canina 🐾❤️.`,
-        `¡De diez! Acá andamos siempre firmes para salvar las papas. Much wow! 🌟`
-      ];
-      return praiseReplies[Math.floor(Math.random() * praiseReplies.length)];
-    }
-
-    // ¿Qué puedes hacer? / Ayuda
-    if (clean.includes('que puedes hacer') || clean.includes('qué puedes hacer') || clean.includes('ayuda') || clean.includes('help')) {
-      return `Soy **Son Bot**, tu asistente inteligente. Puedo ayudarte con:\n\n- 💡 **Responder preguntas** generales y técnicas.\n- 💻 **Escribir y explicar código** en JS, Python, HTML, etc.\n- 🎭 **Contar chistes** y curiosidades.\n- ✨ **Redactar textos**, correos y resúmenes.\n\n*¡Pruébame haciéndome una pregunta!*`;
-    }
-
-    // Chistes
-    if (clean.includes('chiste') || clean.includes('broma') || clean.includes('gracioso') || clean.includes('humor')) {
+    // F. Chistes y Humor
+    if (hasStem('chist', 'brom', 'gracios', 'humor')) {
       const jokes = [
         `— ¿Por qué los pájaros no usan WhatsApp?\n— ¡Porque ya tienen Twitter! 🐦 *Much comedy, very laugh.*`,
         `— ¿Qué le dice un bit a otro bit?\n— Nos vemos en el bus. 🚌`,
@@ -283,8 +291,8 @@ document.addEventListener('DOMContentLoaded', () => {
       return jokes[Math.floor(Math.random() * jokes.length)];
     }
 
-    // Motivación
-    if (clean.includes('motivacional') || clean.includes('frase') || clean.includes('animo') || clean.includes('ánimo') || clean.includes('inspiracion')) {
+    // G. Motivación
+    if (hasStem('motiv', 'fras', 'anim', 'inspiracion')) {
       const quotes = [
         `*"El único modo de hacer un gran trabajo es amar lo que haces."* — Steve Jobs 🚀`,
         `*"No cuentes los días, haz que los días cuenten."* — Muhammad Ali 🥊`,
@@ -294,29 +302,17 @@ document.addEventListener('DOMContentLoaded', () => {
       return quotes[Math.floor(Math.random() * quotes.length)];
     }
 
-    // Código
-    if (clean.includes('codigo') || clean.includes('código') || clean.includes('javascript') || clean.includes('program') || clean.includes('funcion')) {
-      return `Aquí tienes un ejemplo de función útil en **JavaScript** para generar colores aleatorios:\n\n` +
-             `\`\`\`javascript\nfunction getRandomColor() {\n  const letters = '0123456789ABCDEF';\n  let color = '#';\n  for (let i = 0; i < 6; i++) {\n    color += letters[Math.floor(Math.random() * 16)];\n  }\n  return color;\n}\n\nconsole.log(getRandomColor()); // e.g. #F59E0B\n\`\`\``;
-    }
-
-    // Inteligencia Artificial
-    if (clean.includes('inteligencia artificial') || clean.includes('ia') || clean.includes('ai')) {
-      return `La **Inteligencia Artificial (IA)** es la simulación de procesos de inteligencia humana por parte de máquinas y sistemas computacionales.\n\nIncluye áreas como:\n1. **Machine Learning**: Aprender patrones a partir de datos.\n2. **NLP (Procesamiento del Lenguaje Natural)**: Comprender y generar lenguaje humano como lo hacemos ahora.\n3. **Visión por Computadora**: Reconocer imágenes y videos.`;
-    }
-
-    // Quién eres
-    if (clean.includes('quien eres') || clean.includes('quién eres') || clean.includes('quien sos') || clean.includes('quién sos') || clean.includes('son bot') || clean.includes('como te llamas')) {
-      return `¡Soy **Son Bot**! 🤖🐕 Un asistente amigable, guardián de este chat, creado para responder tus dudas con rapidez, inteligencia y buena onda.`;
-    }
-
-    // Temas perrunos
-    if (clean.includes('perro') || clean.includes('dog') || clean.includes('hueso') || clean.includes('paseo') || clean.includes('ladra')) {
-      return `¡Guau! 🐕 Como representante de la comunidad canina digital, apruebo este mensaje. Los paseos y los premios son la clave de la felicidad.`;
-    }
-
-    // Preguntas generales
-    if (prompt.includes('?') || prompt.includes('¿')) {
+    // H. Preguntas (signos o stems porqu, cuand, dond, quien, que, com)
+    if (prompt.includes('?') || prompt.includes('¿') || hasStem('porqu', 'cuand', 'dond', 'quien')) {
+      if (clean.includes('por que') || clean.includes('porque') || clean.includes('why')) {
+        return `El 'por qué' es un gran misterio del universo canino... pero según mis cálculos, se debe a una mezcla de casualidad y buena onda 🪐✨.`;
+      }
+      if (clean.includes('cuando') || clean.includes('when')) {
+        return `Según mis relojes cuánticos: el momento ideal es **ahora mismo** (o justo después de una buena siesta) ⏰✨.`;
+      }
+      if (clean.includes('donde') || clean.includes('where')) {
+        return `No tengo las coordenadas GPS exactas, pero si hay buena onda y amigos, seguro es el lugar correcto 📍🐶.`;
+      }
       const questionReplies = [
         `Buena pregunta... según mis cálculos cuánticos caninos, la probabilidad de éxito es del 99.9% 🐕📊`,
         `Mmm, déjame oler esa consulta... 🤔 ¡Definitivamente tiene sentido! Aunque yo recomendaría avanzar con precaución.`,
@@ -326,17 +322,17 @@ document.addEventListener('DOMContentLoaded', () => {
       return questionReplies[Math.floor(Math.random() * questionReplies.length)];
     }
 
-    // Exclamaciones / Afirmaciones con energía
-    if (prompt.includes('!') || prompt.includes('¡')) {
-      const exclamationReplies = [
-        `¡Esa energía me gusta! Much wow ⚡🐾`,
-        `¡Tranquilo humano, la emoción desborda mis circuitos! 🚀🐶`,
-        `¡Totalmente de acuerdo con esa intensidad! 🔥`
-      ];
-      return exclamationReplies[Math.floor(Math.random() * exclamationReplies.length)];
+    // Elogios
+    if (hasStem('graci', 'genial', 'excelent', 'crack', 'geni', 'cap', 'am', 'gros')) {
+      return `¡De nada! Ha sido un placer ayudarte. Si necesitas algo más, aquí estaré. 🐶✨`;
     }
 
-    // Default varied replies
+    // Identidad
+    if (clean.includes('quien eres') || clean.includes('quien sos') || clean.includes('son bot')) {
+      return `¡Soy **Son Bot**! 🤖🐕 Tu asistente canino virtual, guardián de este chat con IA y tecnología de punta.`;
+    }
+
+    // Fallback: Pool variado de respuestas aleatorias
     const defaultReplies = [
       "me hago caca 💩",
       "Much wow, no entendí nada pero suena importante 🐶",
