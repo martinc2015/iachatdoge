@@ -243,7 +243,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Inteligencia Artificial / ¿Qué es la IA?
     if (clean.includes('inteligencia artificial') || clean.includes('que es la ia') || clean.includes('que es ia') || clean.includes('explicame que es la ia') || clean.includes('redes neuronales') || hasStem('intelig')) {
-      return `La **Inteligencia Artificial (IA)** es una rama de la informática que permite a las computadoras aprender, razonar y resolver problemas como si fueran humanos (¡o perritos muy listos! 🐶💡).\n\nFunciona mediante algoritmos y modelos entrenados con millones de datos para reconocer patrones, predecir resultados, generar texto, imágenes y mucho más. En mi caso, ¡me ayuda a charlar con vos y no mordisquear los cables del servidor! 🚀✨`;
+      const aiReplies = [
+        `La **Inteligencia Artificial (IA)** es la disciplina que crea sistemas capaces de aprender de millones de datos, encontrar patrones complejos y tomar decisiones sin estar programados línea por línea 🧠💻. Desde reconocer imágenes hasta procesar lenguaje natural como lo hacemos vos y yo ahora.`,
+        `Pensá en la IA como enseñarle trucos a un cachorro 🐶🎓: si le mostrás miles de fotos de pelotas y galletitas, con el tiempo aprende a distinguirlas solo. ¡Los modelos de lenguaje y las redes neuronales funcionan igual, ajustando millones de parámetros para darte respuestas coherentes!`,
+        `Básicamente, la IA combina matemáticas, estadística y poder de cómputo para resolver problemas que antes solo hacían humanos 🚀. Hoy nos ayuda a auditar código, automatizar tareas, generar arte y diagnosticar cosas complejas a la velocidad de la luz.`,
+        `La IA es magia matemática en silicio 🐕⚡. Millones de matrices multiplicándose para entender lo que escribís, sonar inteligente y, sobre todo, recordarte que programar con café y un hueso cerca siempre sale mejor.`
+      ];
+      return aiReplies[Math.floor(Math.random() * aiReplies.length)];
     }
 
     // A. Comida / Hambre (stem: 'com', 'morfi', 'asad', 'hambri')
