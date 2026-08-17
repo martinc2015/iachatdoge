@@ -159,7 +159,13 @@ document.addEventListener('DOMContentLoaded', () => {
     showTypingIndicator();
     isBotTyping = true;
     sendBtn.disabled = true;
-    messageInput.disabled = true;
+
+    const isMobile = window.matchMedia('(pointer: coarse)').matches;
+    if (isMobile) {
+      messageInput.disabled = true;
+      messageInput.blur();
+    }
+
     updateBotStatus('thinking');
 
     const thinkingTime = Math.min(Math.max(text.length * 20, 600), 1600);
