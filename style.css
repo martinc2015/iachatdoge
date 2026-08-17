@@ -628,6 +628,21 @@ body {
   animation: fadeInMsg 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
+.chat-clearing .message-row {
+  animation: fadeOutMsg 0.22s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+}
+
+@keyframes fadeOutMsg {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
 .message-row.user-row {
   align-self: flex-end;
   flex-direction: row-reverse;

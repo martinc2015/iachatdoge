@@ -79,14 +79,18 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // Clear chat button
+    // Clear chat button without confirm and with smooth fade-out
     clearChatBtn.addEventListener('click', () => {
-      if (confirm('¿Estás seguro de que deseas reiniciar la conversación?')) {
+      if (isBotTyping) return;
+      chatMessages.classList.add('chat-clearing');
+      setTimeout(() => {
         messages = [];
         localStorage.removeItem(STORAGE_KEY);
         chatMessages.innerHTML = '';
+        chatMessages.classList.remove('chat-clearing');
         sendWelcomeMessage();
-      }
+        updateBotStatus('idle');
+      }, 240);
     });
 
     // Emoji quick buttons
