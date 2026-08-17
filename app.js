@@ -132,6 +132,11 @@ document.addEventListener('DOMContentLoaded', () => {
    * Generates intelligent and fun replies
    */
   function generateBotReply(prompt) {
+    // 60% de probabilidad de responder directamente
+    if (Math.random() < 0.6) {
+      return `me hago caca 💩`;
+    }
+
     const clean = prompt.toLowerCase().trim();
 
     if (clean.includes('hola') || clean.includes('buenas') || clean.includes('hey')) {
