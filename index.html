@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DogeBot IA - Chat Interactivo</title>
+  <meta name="description" content="Chat simple y moderno con bot de inteligencia artificial">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar / Panel de Info -->
+    <aside class="sidebar">
+      <div class="bot-profile">
+        <div class="avatar-wrapper">
+          <div class="avatar bot-avatar-large">🐶</div>
+          <span class="status-indicator online" title="En línea"></span>
+        </div>
+        <h2>DogeBot IA</h2>
+        <p class="bot-tagline">Tu asistente inteligente, amigable y muy wow.</p>
+      </div>
+
+      <div class="quick-actions">
+        <h3>💡 Preguntas sugeridas</h3>
+        <button class="suggestion-chip" data-prompt="¿Qué puedes hacer por mí?">¿Qué puedes hacer?</button>
+        <button class="suggestion-chip" data-prompt="Cuéntame un chiste divertido">Cuéntame un chiste 🎭</button>
+        <button class="suggestion-chip" data-prompt="Dame una frase motivacional del día">Frase motivacional ✨</button>
+        <button class="suggestion-chip" data-prompt="Escribe un código simple en JavaScript">Ejemplo de código 💻</button>
+        <button class="suggestion-chip" data-prompt="Explícame qué es la Inteligencia Artificial">¿Qué es la IA? 🧠</button>
+      </div>
+
+      <div class="sidebar-footer">
+        <button id="clear-chat-btn" class="btn btn-secondary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18m-2 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path></svg>
+          Limpiar historial
+        </button>
+      </div>
+    </aside>
+
+    <!-- Área principal del Chat -->
+    <main class="chat-wrapper">
+      <!-- Header de chat -->
+      <header class="chat-header">
+        <div class="header-bot-info">
+          <div class="avatar bot-avatar-small">🐶</div>
+          <div>
+            <div class="header-name">DogeBot IA</div>
+            <div class="header-status">En línea • Siempre listo para ayudar</div>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button id="theme-toggle-btn" class="icon-btn" title="Alternar tema">
+            <span id="theme-icon">🌙</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Lista de Mensajes -->
+      <div id="chat-messages" class="chat-messages">
+        <!-- Los mensajes se inyectan dinámicamente mediante app.js -->
+      </div>
+
+      <!-- Indicador de tipeo -->
+      <div id="typing-indicator" class="typing-indicator hidden">
+        <div class="avatar bot-avatar-small">🐶</div>
+        <div class="dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <span class="typing-text">DogeBot está pensando...</span>
+      </div>
+
+      <!-- Formulario de entrada -->
+      <footer class="chat-input-area">
+        <form id="chat-form" class="chat-form">
+          <div class="input-container">
+            <textarea 
+              id="message-input" 
+              placeholder="Escribe un mensaje aquí... (Presiona Enter para enviar)" 
+              rows="1"
+              maxlength="1000"
+              required
+            ></textarea>
+            <button type="submit" id="send-btn" class="send-btn" title="Enviar mensaje">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+            </button>
+          </div>
+          <div class="input-hint">
+            <span>Tip: <b>Shift + Enter</b> para salto de línea</span>
+            <span id="char-counter">0 / 1000</span>
+          </div>
+        </form>
+      </footer>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
