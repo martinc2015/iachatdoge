@@ -358,9 +358,14 @@ document.addEventListener('DOMContentLoaded', () => {
       return `¡Soy **Son Bot**! 🤖🐕 Tu asistente canino virtual, guardián de este chat con IA y tecnología de punta.`;
     }
 
-    // Fallback: Pool variado de respuestas aleatorias
+    // Fallback: Pool variado de respuestas aleatorias con personalidad canina
     const defaultReplies = [
-      "me hago caca 💩",
+      "No sé si eso es buena idea... pero yo soy un perro, ¿qué voy a saber? 🐶🤷‍♂️",
+      "Interesante debate, pero justo escuché una bolsa de snacks abrirse en la cocina y perdí la concentración 🦴👀",
+      "Según mis análisis caninos: 50% de probabilidad de éxito, 50% de ganas de salir a dar un paseo 🌳🐕",
+      "Te daría una respuesta más técnica, pero estaba ocupado ladrándole a la nada 🐾⚡",
+      "Mi nivel de procesamiento cayó un 40% porque es hora sagrada de la siesta 😴💤",
+      "Todo apunta a que sí, pero si hay comida de por medio mi voto vale doble 🍖✨",
       "Much wow, no entendí nada pero suena importante 🐶",
       "Mi único circuito funcional acaba de reiniciar... ¿me lo decís de nuevo? 🤖",
       "Procesando... Error 404: Cerebro canino no encontrado 🦴",
