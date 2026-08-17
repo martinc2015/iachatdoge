@@ -720,3 +720,139 @@ textarea::placeholder {
     padding: 0.75rem 1rem 1rem 1rem;
   }
 }
+
+/* ==========================================================================
+   Pride / RGB Rainbow Theme [data-theme="pride"]
+   ========================================================================== */
+[data-theme="pride"], [data-theme="rainbow"] {
+  --bg-primary: #0a0712;
+  --bg-secondary: rgba(18, 12, 30, 0.82);
+  --bg-sidebar: rgba(15, 10, 26, 0.86);
+  --bg-tertiary: rgba(30, 18, 50, 0.65);
+  --bg-chat: rgba(10, 7, 18, 0.75);
+  
+  --text-primary: #fbfbfe;
+  --text-secondary: #c4b5fd;
+  --text-muted: #8b7ca8;
+  
+  --border-color: rgba(216, 180, 254, 0.25);
+  --border-subtle: rgba(216, 180, 254, 0.12);
+  
+  --shadow-hud: 0 0 40px rgba(168, 85, 247, 0.15), 0 25px 60px rgba(0, 0, 0, 0.85);
+}
+
+[data-theme="pride"] body, [data-theme="rainbow"] body {
+  background-color: var(--bg-primary);
+  background-image: 
+    radial-gradient(circle at 10% 15%, rgba(255, 0, 85, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 90% 20%, rgba(255, 204, 0, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 20% 85%, rgba(0, 204, 102, 0.1) 0%, transparent 45%),
+    radial-gradient(circle at 85% 85%, rgba(170, 0, 255, 0.14) 0%, transparent 45%),
+    linear-gradient(rgba(216, 180, 254, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(216, 180, 254, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+}
+
+[data-theme="pride"] .app-container::before, [data-theme="rainbow"] .app-container::before {
+  background: linear-gradient(90deg, #ff0055, #ff7700, #ffea00, #00e676, #00b0ff, #d500f9);
+  opacity: 0.9;
+  box-shadow: 0 0 15px rgba(255, 0, 128, 0.6);
+}
+
+[data-theme="pride"] .bot-avatar-large, [data-theme="rainbow"] .bot-avatar-large {
+  border: 3px solid transparent !important;
+  background-image: linear-gradient(rgba(18, 12, 30, 1), rgba(18, 12, 30, 1)), linear-gradient(135deg, #ff0055, #ff7700, #ffea00, #00e676, #00b0ff, #d500f9);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  box-shadow: 0 0 20px rgba(213, 0, 249, 0.4), 0 0 35px rgba(0, 176, 255, 0.25);
+}
+
+[data-theme="pride"] .bot-avatar-small, [data-theme="rainbow"] .bot-avatar-small {
+  border: 2px solid transparent !important;
+  background-image: linear-gradient(rgba(18, 12, 30, 1), rgba(18, 12, 30, 1)), linear-gradient(135deg, #ff0055, #ff7700, #ffea00, #00e676, #00b0ff, #d500f9);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  box-shadow: 0 0 12px rgba(213, 0, 249, 0.4);
+}
+
+[data-theme="pride"] .status-indicator.online, [data-theme="rainbow"] .status-indicator.online {
+  background: linear-gradient(135deg, #ff0055, #ffea00, #00e676, #00b0ff);
+  box-shadow: 0 0 10px rgba(255, 0, 128, 0.8);
+  animation: prideRadarPulse 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+@keyframes prideRadarPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(213, 0, 249, 0.8), 0 0 10px rgba(0, 176, 255, 0.8);
+  }
+  60% {
+    box-shadow: 0 0 0 10px rgba(255, 0, 85, 0), 0 0 16px rgba(255, 234, 0, 0.9);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(213, 0, 249, 0), 0 0 10px rgba(0, 176, 255, 0.8);
+  }
+}
+
+[data-theme="pride"] .bot-profile h2, [data-theme="rainbow"] .bot-profile h2 {
+  background: linear-gradient(90deg, #ff4081, #ff9100, #ffd600, #00e676, #00b0ff, #d500f9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+}
+
+[data-theme="pride"] .quick-actions h3, [data-theme="rainbow"] .quick-actions h3 {
+  color: #e879f9;
+}
+
+[data-theme="pride"] .suggestion-chip:hover, [data-theme="rainbow"] .suggestion-chip:hover {
+  background: rgba(216, 180, 254, 0.12);
+  border-color: #d946ef;
+  color: #ffffff;
+  box-shadow: 0 0 18px rgba(217, 70, 239, 0.35);
+}
+
+[data-theme="pride"] .suggestion-chip::before, [data-theme="rainbow"] .suggestion-chip::before {
+  background: linear-gradient(180deg, #ff0055, #ffea00, #00e676, #00b0ff, #d500f9);
+}
+
+/* User Message Pride */
+[data-theme="pride"] .user-row .message-bubble, [data-theme="rainbow"] .user-row .message-bubble {
+  background: linear-gradient(135deg, #d946ef 0%, #8b5cf6 50%, #3b82f6 100%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 20px rgba(217, 70, 239, 0.35);
+  color: #ffffff;
+}
+
+/* Bot Message Pride */
+[data-theme="pride"] .bot-row .message-bubble, [data-theme="rainbow"] .bot-row .message-bubble {
+  background: rgba(22, 14, 38, 0.85);
+  border: 1px solid rgba(216, 180, 254, 0.25);
+  border-left: 3px solid #d946ef;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(217, 70, 239, 0.15);
+}
+
+/* Input Focus Pride */
+[data-theme="pride"] .input-container:focus-within, [data-theme="rainbow"] .input-container:focus-within {
+  border-color: #d946ef;
+  box-shadow: 0 0 25px rgba(217, 70, 239, 0.4), 0 0 10px rgba(59, 130, 246, 0.25);
+}
+
+/* Animated Rainbow Send Button */
+[data-theme="pride"] .send-btn, [data-theme="rainbow"] .send-btn {
+  background: linear-gradient(45deg, #ff0055, #ff7700, #ffea00, #00e676, #00b0ff, #d500f9, #ff0055);
+  background-size: 300% 300%;
+  animation: rainbowButtonFlow 4s ease infinite;
+  box-shadow: 0 0 16px rgba(217, 70, 239, 0.6);
+  color: #ffffff;
+}
+
+@keyframes rainbowButtonFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+[data-theme="pride"] .send-btn:hover, [data-theme="rainbow"] .send-btn:hover {
+  box-shadow: 0 0 28px rgba(255, 0, 128, 0.9), 0 0 15px rgba(0, 176, 255, 0.8);
+}
+

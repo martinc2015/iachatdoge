@@ -357,21 +357,21 @@ document.addEventListener('DOMContentLoaded', () => {
    * Theme Management
    */
   function initTheme() {
-    const savedTheme = localStorage.getItem(THEME_KEY) || 'dark';
+    const savedTheme = localStorage.getItem(THEME_KEY) === 'pride' ? 'pride' : 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
     updateThemeIcon(savedTheme);
   }
 
   function toggleTheme() {
     const current = document.documentElement.getAttribute('data-theme') || 'dark';
-    const next = current === 'dark' ? 'light' : 'dark';
+    const next = current === 'pride' ? 'dark' : 'pride';
     document.documentElement.setAttribute('data-theme', next);
     localStorage.setItem(THEME_KEY, next);
     updateThemeIcon(next);
   }
 
   function updateThemeIcon(theme) {
-    themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
-    themeToggleBtn.setAttribute('title', theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
+    themeIcon.textContent = theme === 'dark' ? '🏳️‍🌈' : '🌙';
+    themeToggleBtn.setAttribute('title', theme === 'dark' ? 'Activar tema RGB / Pride' : 'Volver a modo oscuro');
   }
 });
