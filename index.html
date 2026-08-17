@@ -8,7 +8,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <link rel="stylesheet" href="style.css?v=1.013">
+  <link rel="stylesheet" href="style.css?v=1.014">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -26,6 +26,11 @@
         </div>
         <h2>Son Bot</h2>
         <p class="bot-tagline">Tu asistente inteligente, amigable y muy wow.</p>
+        <div class="doge-mood-badge" id="doge-mood-badge" title="Toca para cambiar el humor de Son Bot">
+          <span class="mood-icon" id="mood-icon">🐶</span>
+          <span class="mood-label">Modo:</span>
+          <span class="mood-value" id="mood-value">MUY WOW ✨</span>
+        </div>
       </div>
 
       <div class="quick-actions">
@@ -68,7 +73,7 @@
           <div>
             <div class="header-name-row" style="display:flex; align-items:center;">
               <div class="header-name">Son Bot</div>
-              <span class="version-badge" style="display:inline-block; margin-left:8px; padding:2px 8px; border-radius:12px; font-size:0.75rem; background:#00f0ff22; color:#00f0ff; border:1px solid #00f0ff; font-family:'Fira Code', monospace; font-weight:bold;">v1.013</span>
+              <span class="version-badge" style="display:inline-block; margin-left:8px; padding:2px 8px; border-radius:12px; font-size:0.75rem; background:#00f0ff22; color:#00f0ff; border:1px solid #00f0ff; font-family:'Fira Code', monospace; font-weight:bold;">v1.014</span>
             </div>
             <div class="header-status" id="header-status-container"><span id="header-status-text">🟢 En línea • Última actividad: ahora</span></div>
           </div>
@@ -138,6 +143,6 @@
   <!-- NLP Libraries -->
   <script src="https://unpkg.com/compromise"></script>
   <script src="https://cdn.jsdelivr.net/npm/stemmer-es@1.0.0/dist/stemmer-es.min.js"></script>
-  <script src="app.js?v=1.013"></script>
+  <script src="app.js?v=1.014"></script>
 </body>
 </html>

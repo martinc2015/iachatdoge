@@ -18,6 +18,17 @@ document.addEventListener('DOMContentLoaded', () => {
   // Storage key
   const STORAGE_KEY = 'dogebot_chat_history';
   const THEME_KEY = 'dogebot_theme';
+  const MOOD_STORAGE_KEY = 'sonbot_mood_state';
+
+  const DOGE_MOODS = [
+    { icon: "🐶", text: "MUY WOW ✨" },
+    { icon: "🍖", text: "HAMBRIENTO (99%)" },
+    { icon: "😴", text: "MODO SIESTA (12%)" },
+    { icon: "🎾", text: "MANIJA TOTAL" },
+    { icon: "🕶️", text: "SOBRADO" },
+    { icon: "🦴", text: "CAZANDO BUGS" },
+    { icon: "💩", text: "ME HAGO CACA" }
+  ];
 
   // State
   let messages = [];
@@ -25,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initialize App
   initTheme();
+  initDogeMood();
   loadChatHistory();
   setupEventListeners();
 
@@ -106,6 +118,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Theme toggle
     themeToggleBtn.addEventListener('click', toggleTheme);
+
+    // Doge Mood badge click
+    const dogeMoodBadge = document.getElementById('doge-mood-badge');
+    if (dogeMoodBadge) {
+      dogeMoodBadge.addEventListener('click', () => {
+        setRandomDogeMood();
+      });
+    }
   }
 
   /**
@@ -161,6 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
         messageInput.disabled = false;
         messageInput.focus();
         updateBotStatus('idle');
+        setRandomDogeMood();
       });
     }, thinkingTime);
   }
@@ -621,5 +642,43 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateThemeIcon(theme) {
     themeIcon.textContent = theme === 'dark' ? '🏳️‍🌈' : '🌙';
     themeToggleBtn.setAttribute('title', theme === 'dark' ? 'Activar tema RGB / Pride' : 'Volver a modo oscuro');
+  }
+
+  /**
+   * Doge Mood Widget Management
+   */
+  function initDogeMood() {
+    const saved = localStorage.getItem(MOOD_STORAGE_KEY);
+    if (saved) {
+      try {
+        const mood = JSON.parse(saved);
+        if (mood && mood.icon && mood.text) {
+          renderDogeMood(mood);
+          return;
+        }
+      } catch (e) {
+        console.error('Failed to parse saved mood', e);
+      }
+    }
+    setRandomDogeMood(0);
+  }
+
+  function setRandomDogeMood(preferredIndex = null) {
+    let index;
+    if (typeof preferredIndex === 'number') {
+      index = preferredIndex;
+    } else {
+      index = Math.floor(Math.random() * DOGE_MOODS.length);
+    }
+    const mood = DOGE_MOODS[index];
+    renderDogeMood(mood);
+    localStorage.setItem(MOOD_STORAGE_KEY, JSON.stringify(mood));
+  }
+
+  function renderDogeMood(mood) {
+    const iconEl = document.getElementById('mood-icon');
+    const valueEl = document.getElementById('mood-value');
+    if (iconEl) iconEl.textContent = mood.icon;
+    if (valueEl) valueEl.textContent = mood.text;
   }
 });

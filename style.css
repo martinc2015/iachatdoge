@@ -275,6 +275,52 @@ body {
   line-height: 1.4;
 }
 
+/* Doge Mood Badge Widget */
+.doge-mood-badge {
+  margin-top: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.75rem;
+  background: rgba(0, 240, 255, 0.06);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-code);
+  font-size: 0.76rem;
+  cursor: pointer;
+  user-select: none;
+  transition: var(--transition);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
+}
+
+.doge-mood-badge:hover {
+  background: rgba(0, 240, 255, 0.14);
+  border-color: var(--cyan-glow);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.doge-mood-badge:active {
+  transform: scale(0.97);
+}
+
+.mood-icon {
+  font-size: 0.95rem;
+}
+
+.mood-label {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.mood-value {
+  color: var(--cyan-glow);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
 /* Quick Actions & Neon Chips */
 .quick-actions {
   flex: 1;
