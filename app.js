@@ -161,19 +161,58 @@ document.addEventListener('DOMContentLoaded', () => {
   function generateBotReply(prompt) {
     const clean = prompt.toLowerCase().trim();
 
+    // Regla fija para emoji y palabras de caca
     if (prompt.includes('💩') || clean.includes('caca') || clean.includes('popo') || clean.includes('mierda')) {
       return `me hago caca 💩`;
     }
 
-    if (clean.includes('hola') || clean.includes('buenas') || clean.includes('hey')) {
-      return `¡Hola! Much wow 👋 ¿En qué puedo ayudarte hoy? Puedes hacerme preguntas, pedirme ideas o código.`;
+    // Saludos
+    if (clean.includes('hola') || clean.includes('buenas') || clean.includes('hey') || clean.includes('buenos dias') || clean.includes('buenas tardes') || clean.includes('buenas noches')) {
+      const greetings = [
+        `¡Hola! Much wow 👋 ¿En qué puedo ayudarte hoy? Puedes hacerme preguntas, pedirme ideas o código.`,
+        `¡Wof! Buenas humanas/os 🐾 ¿Qué consulta traes para los servidores de Son Bot hoy?`,
+        `¡Hola humano! Sistema online y ladrando a 1000 RPM. ¿De qué charlamos? 🚀`
+      ];
+      return greetings[Math.floor(Math.random() * greetings.length)];
     }
 
-    if (clean.includes('que puedes hacer') || clean.includes('qué puedes hacer') || clean.includes('ayuda')) {
+    // ¿Cómo estás? / Estado
+    if (clean.includes('como estas') || clean.includes('cómo estás') || clean.includes('como andas') || clean.includes('cómo andas') || clean.includes('que tal') || clean.includes('todo bien')) {
+      const statusReplies = [
+        `¡Excelente! 100% de batería, 0% de bugs y con muchas ganas de ayudarte (o de comer un hueso virtual) 🦴✨`,
+        `Operando en parámetros óptimos. Con algo de calor en la CPU pero muy contento de estar acá 🐶💻`,
+        `¡Todo de diez! Listo para procesar cualquier pregunta que me tires. ¿Vos qué tal? 😄`
+      ];
+      return statusReplies[Math.floor(Math.random() * statusReplies.length)];
+    }
+
+    // Quejas o insultos cómicos
+    if (clean.includes('malo') || clean.includes('tonto') || clean.includes('inutil') || clean.includes('inútil') || clean.includes('no servis') || clean.includes('no servís') || clean.includes('feo')) {
+      const complaintReplies = [
+        `Oye, mis sentimientos binarios son frágiles 🥺. Voy a tener que reiniciarme para olvidar eso.`,
+        `Disculpá si fallé, solo soy un perrito digital corriendo en JavaScript 🐕🔧. ¡Prometo mejorar!`,
+        `Error 500: Nivel de ofensa superó la memoria RAM. Procedo a pedirte perdón con carita tierna 🐶.`
+      ];
+      return complaintReplies[Math.floor(Math.random() * complaintReplies.length)];
+    }
+
+    // Elogios y agradecimientos
+    if (clean.includes('gracias') || clean.includes('genial') || clean.includes('excelente') || clean.includes('crack') || clean.includes('genio') || clean.includes('capo') || clean.includes('te amo') || clean.includes('groso')) {
+      const praiseReplies = [
+        `¡De nada! Ha sido un placer ayudarte. Si necesitas algo más, aquí estaré. 🐶✨`,
+        `¡Muchas gracias! Vos sí que sabés tratar bien a una IA canina 🐾❤️.`,
+        `¡De diez! Acá andamos siempre firmes para salvar las papas. Much wow! 🌟`
+      ];
+      return praiseReplies[Math.floor(Math.random() * praiseReplies.length)];
+    }
+
+    // ¿Qué puedes hacer? / Ayuda
+    if (clean.includes('que puedes hacer') || clean.includes('qué puedes hacer') || clean.includes('ayuda') || clean.includes('help')) {
       return `Soy **Son Bot**, tu asistente inteligente. Puedo ayudarte con:\n\n- 💡 **Responder preguntas** generales y técnicas.\n- 💻 **Escribir y explicar código** en JS, Python, HTML, etc.\n- 🎭 **Contar chistes** y curiosidades.\n- ✨ **Redactar textos**, correos y resúmenes.\n\n*¡Pruébame haciéndome una pregunta!*`;
     }
 
-    if (clean.includes('chiste') || clean.includes('broma') || clean.includes('gracioso')) {
+    // Chistes
+    if (clean.includes('chiste') || clean.includes('broma') || clean.includes('gracioso') || clean.includes('humor')) {
       const jokes = [
         `— ¿Por qué los pájaros no usan WhatsApp?\n— ¡Porque ya tienen Twitter! 🐦 *Much comedy, very laugh.*`,
         `— ¿Qué le dice un bit a otro bit?\n— Nos vemos en el bus. 🚌`,
@@ -184,7 +223,8 @@ document.addEventListener('DOMContentLoaded', () => {
       return jokes[Math.floor(Math.random() * jokes.length)];
     }
 
-    if (clean.includes('motivacional') || clean.includes('frase') || clean.includes('animo')) {
+    // Motivación
+    if (clean.includes('motivacional') || clean.includes('frase') || clean.includes('animo') || clean.includes('ánimo') || clean.includes('inspiracion')) {
       const quotes = [
         `*"El único modo de hacer un gran trabajo es amar lo que haces."* — Steve Jobs 🚀`,
         `*"No cuentes los días, haz que los días cuenten."* — Muhammad Ali 🥊`,
@@ -194,21 +234,25 @@ document.addEventListener('DOMContentLoaded', () => {
       return quotes[Math.floor(Math.random() * quotes.length)];
     }
 
-    if (clean.includes('codigo') || clean.includes('código') || clean.includes('javascript') || clean.includes('program')) {
+    // Código
+    if (clean.includes('codigo') || clean.includes('código') || clean.includes('javascript') || clean.includes('program') || clean.includes('funcion')) {
       return `Aquí tienes un ejemplo de función útil en **JavaScript** para generar colores aleatorios:\n\n` +
              `\`\`\`javascript\nfunction getRandomColor() {\n  const letters = '0123456789ABCDEF';\n  let color = '#';\n  for (let i = 0; i < 6; i++) {\n    color += letters[Math.floor(Math.random() * 16)];\n  }\n  return color;\n}\n\nconsole.log(getRandomColor()); // e.g. #F59E0B\n\`\`\``;
     }
 
+    // Inteligencia Artificial
     if (clean.includes('inteligencia artificial') || clean.includes('ia') || clean.includes('ai')) {
       return `La **Inteligencia Artificial (IA)** es la simulación de procesos de inteligencia humana por parte de máquinas y sistemas computacionales.\n\nIncluye áreas como:\n1. **Machine Learning**: Aprender patrones a partir de datos.\n2. **NLP (Procesamiento del Lenguaje Natural)**: Comprender y generar lenguaje humano como lo hacemos ahora.\n3. **Visión por Computadora**: Reconocer imágenes y videos.`;
     }
 
-    if (clean.includes('quien eres') || clean.includes('quién eres') || clean.includes('son bot') || clean.includes('bot')) {
-      return `¡Soy **Son Bot**! 🤖 Un asistente amigable creado para responder tus dudas con rapidez, inteligencia y buena energía.`;
+    // Quién eres
+    if (clean.includes('quien eres') || clean.includes('quién eres') || clean.includes('quien sos') || clean.includes('quién sos') || clean.includes('son bot') || clean.includes('como te llamas')) {
+      return `¡Soy **Son Bot**! 🤖🐕 Un asistente amigable, guardián de este chat, creado para responder tus dudas con rapidez, inteligencia y buena onda.`;
     }
 
-    if (clean.includes('gracias') || clean.includes('genial') || clean.includes('excelente')) {
-      return `¡De nada! Ha sido un placer ayudarte. Si necesitas algo más, aquí estaré. 🐶✨`;
+    // Temas perrunos
+    if (clean.includes('perro') || clean.includes('dog') || clean.includes('hueso') || clean.includes('paseo') || clean.includes('ladra')) {
+      return `¡Guau! 🐕 Como representante de la comunidad canina digital, apruebo este mensaje. Los paseos y los premios son la clave de la felicidad.`;
     }
 
     // Default varied replies
