@@ -200,6 +200,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const img = document.createElement('img');
       img.src = 'avatar.png';
       img.alt = 'Son Bot';
+      img.className = 'avatar-img';
+      img.width = 38;
+      img.height = 38;
+      img.style.width = '100%';
+      img.style.height = '100%';
+      img.style.objectFit = 'cover';
+      img.style.borderRadius = '50%';
+      img.style.display = 'block';
       avatar.appendChild(img);
     }
 
