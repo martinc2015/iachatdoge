@@ -266,6 +266,11 @@ document.addEventListener('DOMContentLoaded', () => {
       return `me hago caca 💩`;
     }
 
+    // Regla 1.1 (Bandera de Chile)
+    if (prompt.includes('🇨🇱') || clean.includes('chile')) {
+      return `ya po weon 💩`;
+    }
+
     // Regla 2 (Probabilidad espontánea): 2% de probabilidad en cualquier otra charla
     if (Math.random() < 0.02) {
       return `me hago caca 💩`;
